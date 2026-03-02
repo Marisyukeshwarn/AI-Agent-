@@ -1,0 +1,198 @@
+{
+  "name": "AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3445cc7e-ad32-4159-a4b5-dffb883cc13a",
+      "name": "When chat message received",
+      "webhookId": "ccd227e8-c86f-4768-bcd0-13efc91f8790"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful AI assistant. Respond clearly, accurately, and concisely. Ask for clarification if needed.\n\nGmail tool - when user wants to send the mail "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        208,
+        32
+      ],
+      "id": "651b0764-771e-4499-ba2c-9fa1f722321f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        224
+      ],
+      "id": "a6872fab-a448-4682-83de-ca450c6d8024",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "z9S1HhFKJ9UIJmJ1",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        240
+      ],
+      "id": "025e0d7f-2d3c-40cf-b48e-d8532d6aac69",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1FoiKSaU0uM0oi3odBX_Sgt7EmQCoVFcWITV5n6nEfQo",
+          "mode": "list",
+          "cachedResultName": "AI AGENT",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FoiKSaU0uM0oi3odBX_Sgt7EmQCoVFcWITV5n6nEfQo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1FoiKSaU0uM0oi3odBX_Sgt7EmQCoVFcWITV5n6nEfQo/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        576,
+        272
+      ],
+      "id": "3db05d97-5781-41fe-98e0-cc83aa193c5f",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "yShniwh0P1qY5Cni",
+          "name": "Google Sheets account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To_Email', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        368,
+        240
+      ],
+      "id": "f28abe39-2de3-44f8-993c-32d47204608a",
+      "name": "Create a draft in Gmail",
+      "webhookId": "9a6e1012-711a-4649-8f8a-e9424854a322",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "vaqntcoA4GhnxnxZ",
+          "name": "Gmail account 8"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a draft in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0e6f1ff5-0c5c-4b43-b16a-b0044b523b14",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c541d86cda0b00b5ce07eb6714a399db7df1e0f102f0576394071f2a589c1c84"
+  },
+  "id": "5yfGOjBsZa77QCq8",
+  "tags": []
+}
